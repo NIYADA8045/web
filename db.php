@@ -64,4 +64,8 @@ function sellerAuth(){
 		exit;
 	}
 }
+
+function rount($link){
+	header('location:'.$link);
+}
 ?>
