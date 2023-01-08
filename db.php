@@ -1,6 +1,4 @@
 <?php
-error_reporting(E_ERROR | E_PARSE);
-
 session_start();
 //เชื่อมต่อฐานข้อมูล mysql (ชื่อเครื่อง ,ชื่อผู้ใช้ฐานข้อมูล , รหัสผ่านฐานข้อมูล , ชื่อฐานข้อมูล ) //กำหนดชุดภาษาเป็น UTF8 เพื่อรองรับภาษาไทย
 $conn = new mysqli("localhost", "root", "", "bekie");

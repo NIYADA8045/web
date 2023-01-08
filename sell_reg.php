@@ -12,18 +12,16 @@ require('header.php');
 			
 			<p>กรอกข้อมูลในช่องด้านล่างให้ครบถ้วน</p>
 			
-			<!--					alert-->
-					<?= alert(); ?>
-			<form class="" action="cus_reg_save.php" method="post">
+			<!--alert-->
+			<?= alert(); ?>
+			<form class="" action="sell_reg_save.php" method="post">
 				
-				<div class="">
-					
-					<div class="form-row mb-3">
-						<div class="col">
-							<input class="form-control" placeholder="ชื่อจริง" name="first_name" value="" required type="text">
-						</div>
+				<div class="form-row mb-3">
+				    <div class="col">
+				        <input class="form-control" placeholder="ชื่อจริง" name="first_name" value="" required type="text">
+				    </div>
 						
-						<div class="col">
+					<div class="col">
 						<input class="form-control" placeholder="นามสกุล" name="last_name" value="" required type="text"></div>
 					</div>
 
@@ -46,28 +44,10 @@ require('header.php');
 					<input class="form-control mb-3" placeholder="ยืนยันรหัสผ่าน" name="repassword" value="" required type="password">
 					
 					<button class="btn btn-block btn-dark" type="submit">ลงทเบียน</button>
-				</div>
-				
-				
 			</form>
 		</div>
 	</main>
 
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 <?php
 require('footer.php');
 ?>
