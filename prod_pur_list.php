@@ -33,13 +33,12 @@ require('header.php');
                     foreach($purchase_list as $p){
                         array_push($purids,$p['purchase_id']);	
                     }
-
-                    $purids = implode(',',$purids);
+                    $purid = implode(',',$purids);
 
                     $sql = "select p.* , c.first_name , c.last_name 
                             from purchase p
                             inner join customer c on c.id = p.customer_id 
-                            where p.id in ($purids s)";
+                            where p.id in ($purid)";
                     $purchase = get($sql);
                     
                     $pd = get($sql);
@@ -47,14 +46,13 @@ require('header.php');
                     foreach($pd as $p){
                     ?>
                     <tr>
-                        <th><?= $p['purchase_id'] ?></th>
+                        <th><?= $p['id'] ?></th>
                         <th><?= $p['buy_date'] ?></th>
-                        <th><?= $p['name'] ?></th>
+                        <th><?= $p['first_name'] . " " . $p['last_name'] ?></th>
                         <th><?= $p['total'] ?></th>
                         <th>
                             <div class="">
-                            <a class="btn btn-danger col mb-3" href="prod_delete.php?pid=<?=$p['id']?>">Delete</a>
-                            <a class="btn btn-primary col" href="prod_edit.php?pid=<?=$p['id']?>">Edit</a>
+                            <a class="btn btn-primary col" href="prod_pur_detail.php?pid=<?=$p['id']?>">detail</a>
                             </div>
                         </th>
                         

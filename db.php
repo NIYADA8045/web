@@ -1,7 +1,7 @@
 <?php
 session_start();
 //เชื่อมต่อฐานข้อมูล mysql (ชื่อเครื่อง ,ชื่อผู้ใช้ฐานข้อมูล , รหัสผ่านฐานข้อมูล , ชื่อฐานข้อมูล ) //กำหนดชุดภาษาเป็น UTF8 เพื่อรองรับภาษาไทย
-$conn = new mysqli("localhost", "root", "", "bekie");
+$conn = new mysqli("localhost", "root", "", "web_ecommerce");
 $conn->set_charset("utf8");
 
 //กำหนดเขตเวลา ให้ตรงกับบ้านเรา เพื่อให้ดึงวันที่ได้ถูกต้อง
@@ -49,7 +49,7 @@ function user($userdata)
 
 function customerAuth(){
 	// var_dump($usertype);
-	if(!isset($_SESSION['login']) || empty($_SESSION['user']['type']) || $_SESSION['user']['type'] != "customer"){
+	if(!isset($_SESSION['auth']) || empty($_SESSION['user']['type']) || $_SESSION['user']['type'] != "customer"){
 		header('localhost:login.php');
 		exit;
 	}
@@ -58,7 +58,7 @@ function customerAuth(){
 
 function sellerAuth(){
 	// var_dump($usertype);
-	if(!isset($_SESSION['login']) || empty($_SESSION['user']['type']) || $_SESSION['user']['type'] != "seller"){
+	if(!isset($_SESSION['auth']) || empty($_SESSION['user']['type']) || $_SESSION['user']['type'] != "seller"){
 		header('localhost:login.php');
 		exit;
 	}

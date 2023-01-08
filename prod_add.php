@@ -1,7 +1,6 @@
 <?php
-include('db.php');
 require('header.php');
-//sellerAuth();
+sellerAuth();
 ?>
 
 	<main class="p-5">

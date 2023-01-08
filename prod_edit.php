@@ -1,5 +1,4 @@
 <?php
-include('db.php');
 require('header.php');
 //sellerAuth();
 $sql = "select * from product where id = ".$_GET['pid'];
