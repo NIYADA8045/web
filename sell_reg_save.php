@@ -1,5 +1,5 @@
 <?php
-include_once('db.php');
+include('db.php');
 
 $stmt = $conn->prepare("(select username from seller 
 where username = ?) union all (select username from customer where username = ?)");
