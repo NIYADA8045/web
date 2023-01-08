@@ -4,14 +4,14 @@ include('db.php');
 if(!empty($_FILES['picture']['name'])){
     $ext = pathinfo($_FILES['picture']['name'],PATHINFO_EXTENSION);
     $picname = md5(strtotime("now").$_SERVER['REMOTE_ADDR']). '.'.$ext;
-    copy($_FILES['picture']['tmp_name'], "img/product/$picname");
+    copy($_FILES['picture']['tmp_name'], "productimg/$picname");
 }
 
-echo $sql = "insert into product value(
+$sql = "insert into product value(
 null,
 '{$_POST['name']}',
 '{$_POST['price']}',
-$picname,
+'{$picname}',
 '{$_POST['detail']}',
 '{$_POST['box_width']}',
 '{$_POST['box_height']}',
@@ -19,12 +19,12 @@ $picname,
 '{$_POST['box_weight']}',
 '{$_POST['id']}'
 )";
-    
-echo $save = set($sql);
-exit;
+
+$save = set($sql);
+
 if($save){
     sessAlt('alert-success','ลงขายสินค้าสำเร็จ','prod.php');
-}{
+}else{
     sessAlt('alert-danger','ลงขายสินค้าไม่สำเร็จ','prod.php');
 }
 ?>
