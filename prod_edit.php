@@ -8,7 +8,7 @@ $pd = get($sql)[0];
 ?>
 
 	<main class="p-5">
-		<form action="prod_add_save.php" method="post" enctype="multipart/form-data" class="m-auto col-5 p-4 alert-secondary rounded">
+		<form action="prod_edit_save.php" method="post" enctype="multipart/form-data" class="m-auto col-5 p-4 alert-secondary rounded">
 			<h4 > ร้าน <?=user('shop_name')?> </h4>
             <h5>แก้ไขรายการสินค้า</h5>
 			<!--alert-->
@@ -29,6 +29,8 @@ $pd = get($sql)[0];
             <div class="form-row">
                 <p class="col">รูปภาพตัวอย่าง</p>
                 <input class="col form-control" name="picture" type="file">
+<!--                //old value-->
+                <input class="col form-control" name="picval" type="hidden" value="<?=$pd['picture']?>">
             </div>       
         
             
@@ -50,6 +52,8 @@ $pd = get($sql)[0];
             </div> 
             <!--           hidden-->
             <input type="hidden" value="<?=user('id')?>" name="id">
+            <input type="hidden" value="<?=$pd['id']?>" name="pid">
+            
             <button class="btn btn-block btn-dark mt-3" type="submit">ยืนยันแก้ไขข้อมูล</button>
 		</form>
 	</main>
