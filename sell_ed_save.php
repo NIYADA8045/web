@@ -17,12 +17,8 @@ $update = set($sql);
 if($update){
     $_SESSION['auth'] = true;
     $_SESSION['user'] = $_POST;
-    print_r($_SESSION['user']);
-    exit;
     rount('sell_profile.php');
 }else{
     sessAlt('alert-danger','ไม่สามารถแก้ไขข้อมูลได้','sell_profile_edit.php');
 }
-
-
 ?>
