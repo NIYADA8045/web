@@ -55,6 +55,7 @@ function customerAuth(){
 	}
 }
 
+
 function sellerAuth(){
 	// var_dump($usertype);
 	if(!isset($_SESSION['login']) || empty($_SESSION['user']['type']) || $_SESSION['user']['type'] != "seller"){
@@ -63,7 +64,15 @@ function sellerAuth(){
 	}
 }
 
+//ใช้โยงหน้า ขี้เกียจพิม location บ่อย
 function rount($link){
 	header('location:'.$link);
+}
+
+//session alert ขี้เกียจพิมบ่อย มี3 param $clss = alert-class $mess = ข้อความ $link = เปลี่ยนไปหน้าไหน
+function sessAlt($class,$mess,$link){
+    $_SESSION['alert-class'] = $class;
+    $_SESSION['alert-message'] = $mess;
+    rount($link);
 }
 ?>
