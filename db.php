@@ -1,78 +1,81 @@
 <?php
-session_start();
-//เชื่อมต่อฐานข้อมูล mysql (ชื่อเครื่อง ,ชื่อผู้ใช้ฐานข้อมูล , รหัสผ่านฐานข้อมูล , ชื่อฐานข้อมูล ) //กำหนดชุดภาษาเป็น UTF8 เพื่อรองรับภาษาไทย
-$conn = new mysqli("localhost", "root", "", "web_ecommerce");
-$conn->set_charset("utf8");
+use FFI\Exception;
 
-//กำหนดเขตเวลา ให้ตรงกับบ้านเรา เพื่อให้ดึงวันที่ได้ถูกต้อง
+session_start();
+//db connect
+$conn = new mysqli('localhost', 'root', '', 'web_ecommerce');
+$conn->set_charset('utf8');
 date_default_timezone_set('asia/bangkok');
 
-function get($sql)
-{
-	global $conn;
-	try {
-		$query = $conn->query($sql);
-		$queryRow = $query->fetch_all(MYSQLI_ASSOC);
-	} catch (Exception $e) {
-		$queryRow = [];
-	}
-	return $queryRow;
+//sql func
+function get($sql){
+    global $conn;
+    try {
+        $query = $conn->query($sql);
+        $queryrow = $query->fetch_all(MYSQLI_ASSOC);
+
+    }catch(Exception $e){
+        $queryrow = [];
+    }
+    return $queryrow;
+}
+function set($sql){
+    global $conn;
+    try{
+        $rel = $conn->query($sql);
+    }catch(Exception $e){
+        echo $e->getMessage();
+    }
+    return $rel;
 }
 
-function set($sql)
-{
-	global $conn;
-	try {
-		$rel = $conn->query($sql);
-	} catch (Exception $e) {
-		echo $e->getMessage();
-	}
-	return $rel;
-}
-
-function alert()
-{
-	if (isset($_SESSION['alert-message'])) {
-		$alert = '<div class="alert ' . "{$_SESSION['alert-class']}" . '">' . $_SESSION['alert-message'] . '</div>';
-	} else {
-		$alert = "";
-	}
-	return $alert;
-}
-
-// function แสดงข้อมูลลูกค้า 
-function user($userdata)
-{
-	// return ถ้ามีข้อมูลให้แสดงออกไป ถ้าไม่มี ให้แสดงคำว่า "ไม่มีข้อมูลอยู่!" 
-	return $_SESSION['user'][$userdata] ?? "ไม่มีข้อมูลอยู่!";
-}
-
-function customerAuth(){
-	// var_dump($usertype);
-	if(!isset($_SESSION['auth']) || empty($_SESSION['user']['type']) || $_SESSION['user']['type'] != "customer"){
-		header('localhost:login.php');
-		exit;
-	}
-}
-
-
-function sellerAuth(){
-	// var_dump($usertype);
-	if(!isset($_SESSION['auth']) || empty($_SESSION['user']['type']) || $_SESSION['user']['type'] != "seller"){
-		header('localhost:login.php');
-		exit;
-	}
-}
-
-//ใช้โยงหน้า ขี้เกียจพิม location บ่อย
+//rount
 function rount($link){
-	header('location:'.$link);
+    header('location:' . $link);
+    exit;
 }
 
-//session alert ขี้เกียจพิมบ่อย มี3 param $clss = alert-class $mess = ข้อความ $link = เปลี่ยนไปหน้าไหน
-function sessAlt($class,$mess,$link){
+//เอาไว้เช็ค สถานะ login 
+function auth(){
+    if(empty($_SESSION['auth'])){
+        rount('login.php');
+    }
+}
+
+//เอาไว้ดึงข้อมูล User มาโข ถ้าไม่มีจะ ส่งคำว่าไม่มีข้อมูลกลับไป
+function user($userdata){
+    return $_SESSION['user'][$userdata] ?? 'ไม่มีข้อมูลอยู่';
+}
+
+//เอาไว้เช็คว่าผู้ใช่เป็น ประเภท seller ไหม
+function sellerAuth(){
+    if($_SESSION['user']['type'] != 'seller' || empty($_SESSION['user']) ){
+        rount('login.php');
+    }
+}
+
+//เอาไว้เช็คว่าผู้ใช่เป็น ประเภท customer ไหม
+function custommerAuth(){
+    if($_SESSION['user']['type'] != 'seller' || empty($_SESSION['user']) ){
+        rount('login.php');
+    }
+}
+
+// เก็บ session alert และ ส่งผู้ใช้ไปหน้าอื่น มี 3 paramiter $class = ชื่อ class css เช่น danger warning | $mess = ข้อความที่จะแสดงerror | $rount = จะส่งผู้ใช้กลับไปหน้าไหน
+
+// ตอนเรียกใช้้ให้ใส่ paramiter 3 ตัว เช่น alertSess('danger','ไม่สามารถลงทะเบียนได้','register.php')  
+function alertSess($class,$mess,$rount){
     $_SESSION['alert-class'] = $class;
     $_SESSION['alert-message'] = $mess;
-    rount($link);
+    rount($rount);
 }
+
+//Show alert ถ้ามี $_SESSION['alert-class'] กับ $_SESSION['alert-message'] ส่งมาจะทำการ Show alert
+function alertShow(){
+    if(isset($_SESSION['alert-class']) && isset($_SESSION['alert-message'])){
+        echo '<div class="alert-'.$_SESSION['alert-class'].' p-3 btn-block mb-3 rounded">'.$_SESSION['alert-message'] .'</div>';
+    }
+}
+
+
 ?>

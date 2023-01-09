@@ -1,23 +1,21 @@
 <?php
-include('db.php');
+include 'db.php';
 
-$sellRel = get("select * from seller where username = '{$_POST['username']}' and password = '{$_POST['password']}' ");
+$seller = get("select * from seller where username = '{$_POST['username']}' and password = '{$_POST['password']}' ")[0];
 
-//custommer เขียนในfile นี้เลยเหมือนกันให้ Elseif เอา
+$customer = get("select * from customer where username = '{$_POST['username']}' and password = '{$_POST['password']}' ")[0];
 
-if(count($sellRel) == 1)
-{
-    $_SESSION['alert_message'] = 'susess';
-    $_SESSION['user'] = $sellRel[0];
+if($seller){
+    $_SESSION['user'] = $seller;
     $_SESSION['user']['type'] = 'seller';
-    $_SESSION['auth'] = true;
-//    var_dump($_SESSION['user']);
-//    exit;
+    $_SESSION['auth'] = 'true';
     rount('index.php');
+}elseif($customer){
+    $_SESSION['user'] = $customer;
+    $_SESSION['user']['type'] = 'customer';
+    $_SESSION['auth'] = 'true';
+    rount('index.php');
+}else{
+    alertSess('danger', 'ชื่อผู้ใช้ หรือ รหัสผ่าน ไม่ตรงกัน', 'login.php');
 }
-else
-{
-    sessAlt('alert-danger','username หรือ password ไม่ถูกต้อง','login.php');
-}
-
 ?>
