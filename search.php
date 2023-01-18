@@ -1,18 +1,12 @@
 <?php include 'header.php'; ?>
-<section class="p-5">
 
-	<div class="float-right">
-		<form class="form-inline" action="search.php" method="post">
-			<div>
-				<input class="form-control mr-2" type="text" name="keyword" placeholder="ค้นหา">
-				<button type="submit" class="btn btn-primary"> ค้นหา </button>
-			</div>
-		</form>
-	</div>
-	
+<!-- alert  -->
+<?= alertShow() ?>
+
+<section class="p-5">
 	<h4>รายการสินค้าที่ตรงกับคำค้นหา <strong>"<?= $_POST['keyword'] ?>"</strong></h4>
 
-	<div class="row">
+	<div>
 		<?php
 		$perpage = 20;
 		$page = (empty($_GET['page'])) ? 1 : $_GET['page'];
@@ -33,13 +27,15 @@
 
 		foreach ($products as $p) {
 		?>
-			<div class="col my-3">
-					<div class="card" style="width: 25rem;">
-						<img src="upload_picture/<?= $p['picture'] ?>"  class="card-img-top">
-			
-					<div class="card-body"> 
-						<h5 class="card-title"> <?= $p['name'] ?> <h5>
-						<p class="card-body">ราคา : <?= $p['price'] ?> บาท</p>
+			<div class="col-3">
+				<div>
+					<img src="upload_picture/<?= $p['picture'] ?>" height="150" width="150">
+				</div>
+				<div class="pt-1"> <?= $p['name'] ?> </div>
+
+				<div class="py-2">
+					<div class="tx-g">ราคา : <?= $p['price'] ?> บาท </div>
+					<div class="">
 						<?php
 						if (user('type') != 'seller') {
 						?>
@@ -54,7 +50,6 @@
 		}
 		?>
 	</div>
-	</section>
 
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -81,6 +76,7 @@
 			</li>
 		</ul>
 	</nav>
+</section>
 
 
 <?php

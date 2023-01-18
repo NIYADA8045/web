@@ -1,11 +1,13 @@
-<?php include 'header.php' ?>
+<?php include 'header.php'; ?>
+
 
 <!-- body code goes here -->
 <section class="p-5">
-	<div class="float-right">
+
+	<div class="mb-5 float-lg-right">
 		<form class="form-inline" action="search.php" method="post">
 			<div>
-				<input class="form-control mr-2" type="text" name="keyword" placeholder="ค้นหา">
+				<input class="form-control mr-2 " type="text" name="keyword" placeholder="ค้นหา">
 				<button type="submit" class="btn btn-primary"> ค้นหา </button>
 			</div>
 		</form>
@@ -15,10 +17,8 @@
 	<?= alertShow() ?>
 
 
-	<div class="my-5">
+	<div>
 		<h4>สินค้าขายดี</h4>
-
-
 		<div class="row">
 		<?php
 
@@ -50,36 +50,39 @@
 			//array_push() คือ เพิ่ม $p['id'] เข้าไปใน $best)ids ประกาศ
 			array_push($best_ids, $p['id']);
 		?>
-			<div class="col my-3">
-					<div class="card" style="width: 25rem;">
-						<img src="upload_picture/<?= $p['picture'] ?>"  class="card-img-top">
+
 			
-					<div class="card-body"> 
-						<h5 class="card-title"> <?= $p['name'] ?> <h5>
-						<p class="card-body">ราคา : <?= $p['price'] ?> บาท</p>
-						<?php
+			<div class="card m-2" style="width: 18rem;">
+				  <img class="card-img-top" src="upload_picture/<?= $p['picture'] ?>" alt="Card image cap" width="150" height="150">
+				  <div class="card-body">
+					<h5 class="card-title"><?= $p['name'] ?></h5>
+					<p class="text-truncate card-text"><?= $p['detail'] ?></p>
+					  <p class="card-text">ราคา : <?= $p['price']?>บาท</p>
+					  <?php
 						if (user('type') != 'seller') {
 						?>
-							<a class="btn btn-block btn-info" href="cart_add.php?id=<?= $p['id'] ?>"> สั่งซื้อ</a>
+							<a href="cart_add.php?id=<?= $p['id'] ?>" class="btn btn-primary">สั่งซื้อ</a>
 						<?php
 						}
 						?>
-					</div>
-				</div>
+					
+				  </div>
 			</div>
+			
+			
 		<?php
 		}
 		?>
 		</div>
+</div>
 
-	</div >
 		<!-- รายการสินค้า  -->
-		<section class="my-5"> 
+		<section>
 			<h4>รายการสินค้า</h4>
 
-			<div class="row" style="height:200 px;">
-
+			<div class="row">
 				<?php
+
 				$perpage = 20;
 
 				//(empty($_GET['page'])) ? 1 : $_GET['page']; เป็นการเขียน if แบบ short if 
@@ -97,7 +100,7 @@
 				// (1*15)-20 = 0 , (2*15)-20 = 15;
 				$start = $perpage * $page - $perpage;
 
-				$sql = "SELECT * from product";
+				$sql = "select * from product";
 
 				//ถ้า $best_ids ไม่ว่าง หรือมีข้อมูลอยู่ข้างใน
 				if (!empty($best_ids)) {
@@ -107,34 +110,38 @@
 					// ถ้าทำการ implode(',', $best_ids);
 					// ผลลัพ จะเป็น '1' '2' '3' '4' '5' จะออกมาเป็น string เพราะในข้อมูลใน array ไม่ใช่ string
 					$best_ids = implode(',', $best_ids);
-					$sql .= " WHERE id not in($best_ids)";
+					$sql .= "where id not in($best_ids)";
 				}
 
 				$all = get($sql);
 
 				$pages = ceil(count($all) / $perpage);
-				$sql .= " limit $start,$perpage ";
-				$products = get($sql);
 
+				$sql .= " limit $start,$perpage ";
+
+				$products = get($sql);
 				foreach ($products as $p) {
 				?>
-				<div class="col my-3 h-100">
-					<div class="card" style="width: 25rem;">
-						<img src="upload_picture/<?= $p['picture'] ?>"  class="card-img-top">
-			
-					<div class="card-body"> 
-						<h5 class="card-title"> <?= $p['name'] ?> <h5>
-						<p class="card-body">ราคา : <?= $p['price'] ?> บาท</p>
-						<?php
-						if (user('type') != 'seller') {
-						?>
-							<a class="btn btn-block btn-info" href="cart_add.php?id=<?= $p['id'] ?>"> สั่งซื้อ</a>
-						<?php
-						}
-						?>
+
+					<div class="col-3">
+						<div>
+							<img src="upload_picture/<?= $p['picture'] ?>" height="150" width="150">
+						</div>
+						<div class="pt-1"> <?= $p['name'] ?> </div>
+
+						<div class="py-2">
+							<div class="tx-g">ราคา : <?= $p['price'] ?> บาท </div>
+							<div class="">
+								<?php
+								if (user('type') != 'seller') {
+								?>
+									<a class="btn btn-block btn-info" href="cart_add.php?id=<?= $p['id'] ?>"> สั่งซื้อ</a>
+								<?php
+								}
+								?>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
 				<?php
 				}
 				?>
